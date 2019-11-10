@@ -19,3 +19,6 @@
 [submodule "hw/mcu/ti"]
 	path = hw/mcu/ti
 	url = https://github.com/hathach/ti_driver.git
+[submodule "hw/mcu/nxp/rt10xx"]
+	path = hw/mcu/nxp/rt10xx
+	url = https://github.com/arturo182/MIMXRT10xx_SDK.git
