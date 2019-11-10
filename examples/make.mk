@@ -81,7 +81,7 @@ CFLAGS += \
 ifeq ($(DEBUG), 1)
   CFLAGS += -Og -ggdb
 else
-  ifneq ($(BOARD),spresense)
+  ifeq (,$(filter $(BOARD),spresense mimxrt1010_evk))
     CFLAGS += -flto -Os
   else
     CFLAGS += -Os

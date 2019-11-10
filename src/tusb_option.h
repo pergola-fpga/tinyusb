@@ -70,6 +70,9 @@
 
 #define OPT_MCU_CXD56         400 ///< SONY CXD56
 
+// NXP
+#define OPT_MCU_RT10XX        500 ///< NXP IMXRT10xx
+
 /** @} */
 
 /** \defgroup group_supported_os Supported RTOS
