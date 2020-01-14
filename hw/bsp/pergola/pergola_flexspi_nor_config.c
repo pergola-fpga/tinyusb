@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#include "evkmimxrt1010_flexspi_nor_config.h"
+#include "pergola_flexspi_nor_config.h"
 
 /* Component ID definition, used by tools. */
 #ifndef FSL_COMPONENT_ID

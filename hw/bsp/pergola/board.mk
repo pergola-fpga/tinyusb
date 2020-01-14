@@ -6,20 +6,33 @@ CFLAGS += \
   -mfpu=fpv5-d16 \
   -D__ARMVFP__=0 -D__ARMFPV5__=0\
   -DCPU_MIMXRT1011DAE5A \
-  -DDEBUG \
   -D__START=main \
-  -DXIP_EXTERNAL_FLASH=1 \
-  -DXIP_BOOT_HEADER_ENABLE=1 \
   -DCFG_TUSB_MCU=OPT_MCU_MIMXRT10XX \
   -D__STARTUP_CLEAR_BSS
 
+ifeq ($(DEBUG),1)
+CFLAGS += -DDEBUG
+endif
+
+# TODO: Have separate output directories for ram and flash variants
+VARIANT ?= flash
+ifeq ($(VARIANT), flash)
+LD_FILE = hw/bsp/$(BOARD)/MIMXRT1011xxxxx_flexspi_nor.ld
+CFLAGS +=
+  -DXIP_EXTERNAL_FLASH=1 \
+  -DXIP_BOOT_HEADER_ENABLE=1
+else
+LD_FILE = hw/bsp/$(BOARD)/MIMXRT1011xxxxx_ram.ld
+CFLAGS +=
+  -DXIP_EXTERNAL_FLASH=0 \
+  -DXIP_BOOT_HEADER_ENABLE=0
+endif
+
 # mcu driver cause following warnings
 CFLAGS += -Wno-error=unused-parameter -Wno-error=implicit-fallthrough=
+LDFLAGS += -Xlinker -print-memory-usage
 
 MCU_DIR = hw/mcu/nxp/sdk/devices/MIMXRT1011
-
-# All source paths should be relative to the top level.
-LD_FILE = hw/bsp/$(BOARD)/MIMXRT1011xxxxx_flexspi_nor.ld
 
 SRC_C += \
 	$(MCU_DIR)/system_MIMXRT1011.c \
@@ -61,3 +74,7 @@ flash: $(BUILD)/$(BOARD)-firmware.elf
 			--connectscript=RT1010_connect.scp \
 			--debug 4 \
 			--no-packed
+
+# Program directly to RAM using the imx USB ROM bootloader 
+ram: $(BUILD)/$(BOARD)-firmware.bin
+	$(IMX_USB_LOADER) -c ../../../hw/bsp/pergola
