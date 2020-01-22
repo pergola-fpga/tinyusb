@@ -78,3 +78,9 @@ flash: $(BUILD)/$(BOARD)-firmware.elf
 # Program directly to RAM using the imx USB ROM bootloader 
 ram: $(BUILD)/$(BOARD)-firmware.bin
 	$(IMX_USB_LOADER) -c ../../../hw/bsp/pergola
+
+debug: $(BUILD)/$(BOARD)-firmware.elf
+	arm-none-eabi-gdb $< \
+		-ex "set non-stop on" \
+		-ex "target extended-remote | $(CRT_EMU_CM_REDLINK) -g -pMIMXRT1011xxxxx --connectscript=RT1010_connect.scp --no-packed" \
+.PHONY: debug
