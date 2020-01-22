@@ -18,12 +18,12 @@ endif
 VARIANT ?= flash
 ifeq ($(VARIANT), flash)
 LD_FILE = hw/bsp/$(BOARD)/MIMXRT1011xxxxx_flexspi_nor.ld
-CFLAGS +=
+CFLAGS += \
   -DXIP_EXTERNAL_FLASH=1 \
   -DXIP_BOOT_HEADER_ENABLE=1
 else
 LD_FILE = hw/bsp/$(BOARD)/MIMXRT1011xxxxx_ram.ld
-CFLAGS +=
+CFLAGS += \
   -DXIP_EXTERNAL_FLASH=0 \
   -DXIP_BOOT_HEADER_ENABLE=0
 endif
